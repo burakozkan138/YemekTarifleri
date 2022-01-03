@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="YemekTarifleriModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Kategoriler">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Malzemeler">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="TarifId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Resimler">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="TarifId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tarifler">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="YSuresi" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Porsiyon" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Durum" Type="bit" Nullable="false" />
+          <Property Name="OTarihi" Type="datetime" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="KategoriId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="YapimAsamalari">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="TarifId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Yorumlar">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="OTarihi" Type="datetime" Nullable="false" />
+          <Property Name="TarifId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Malzemele__Tarif__4316F928">
+          <End Role="Tarifler" Type="Self.Tarifler" Multiplicity="1" />
+          <End Role="Malzemeler" Type="Self.Malzemeler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tarifler">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Malzemeler">
+              <PropertyRef Name="TarifId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Resimler__TarifI__44FF419A">
+          <End Role="Tarifler" Type="Self.Tarifler" Multiplicity="1" />
+          <End Role="Resimler" Type="Self.Resimler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tarifler">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resimler">
+              <PropertyRef Name="TarifId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tarifler__Katego__45F365D3">
+          <End Role="Kategoriler" Type="Self.Kategoriler" Multiplicity="1" />
+          <End Role="Tarifler" Type="Self.Tarifler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriler">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tarifler">
+              <PropertyRef Name="KategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__YapimAsam__Tarif__440B1D61">
+          <End Role="Tarifler" Type="Self.Tarifler" Multiplicity="1" />
+          <End Role="YapimAsamalari" Type="Self.YapimAsamalari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tarifler">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="YapimAsamalari">
+              <PropertyRef Name="TarifId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Yorumlar__TarifI__46E78A0C">
+          <End Role="Tarifler" Type="Self.Tarifler" Multiplicity="1" />
+          <End Role="Yorumlar" Type="Self.Yorumlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tarifler">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Yorumlar">
+              <PropertyRef Name="TarifId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="YemekTarifleriModelStoreContainer">
+          <EntitySet Name="Kategoriler" EntityType="Self.Kategoriler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Malzemeler" EntityType="Self.Malzemeler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Resimler" EntityType="Self.Resimler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tarifler" EntityType="Self.Tarifler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="YapimAsamalari" EntityType="Self.YapimAsamalari" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Yorumlar" EntityType="Self.Yorumlar" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Malzemele__Tarif__4316F928" Association="Self.FK__Malzemele__Tarif__4316F928">
+            <End Role="Tarifler" EntitySet="Tarifler" />
+            <End Role="Malzemeler" EntitySet="Malzemeler" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Resimler__TarifI__44FF419A" Association="Self.FK__Resimler__TarifI__44FF419A">
+            <End Role="Tarifler" EntitySet="Tarifler" />
+            <End Role="Resimler" EntitySet="Resimler" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tarifler__Katego__45F365D3" Association="Self.FK__Tarifler__Katego__45F365D3">
+            <End Role="Kategoriler" EntitySet="Kategoriler" />
+            <End Role="Tarifler" EntitySet="Tarifler" />
+          </AssociationSet>
+          <AssociationSet Name="FK__YapimAsam__Tarif__440B1D61" Association="Self.FK__YapimAsam__Tarif__440B1D61">
+            <End Role="Tarifler" EntitySet="Tarifler" />
+            <End Role="YapimAsamalari" EntitySet="YapimAsamalari" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Yorumlar__TarifI__46E78A0C" Association="Self.FK__Yorumlar__TarifI__46E78A0C">
+            <End Role="Tarifler" EntitySet="Tarifler" />
+            <End Role="Yorumlar" EntitySet="Yorumlar" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="YemekTarifleriModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Kategoriler">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Tarifler" Relationship="Self.FK__Tarifler__Katego__45F365D3" FromRole="Kategoriler" ToRole="Tarifler" />
+        </EntityType>
+        <EntityType Name="Malzemeler">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TarifId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Tarifler" Relationship="Self.FK__Malzemele__Tarif__4316F928" FromRole="Malzemeler" ToRole="Tarifler" />
+        </EntityType>
+        <EntityType Name="Resimler">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TarifId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Tarifler" Relationship="Self.FK__Resimler__TarifI__44FF419A" FromRole="Resimler" ToRole="Tarifler" />
+        </EntityType>
+        <EntityType Name="Tarifler">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="YSuresi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Porsiyon" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Durum" Type="Boolean" Nullable="false" />
+          <Property Name="OTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="KategoriId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Kategoriler" Relationship="Self.FK__Tarifler__Katego__45F365D3" FromRole="Tarifler" ToRole="Kategoriler" />
+          <NavigationProperty Name="Malzemeler" Relationship="Self.FK__Malzemele__Tarif__4316F928" FromRole="Tarifler" ToRole="Malzemeler" />
+          <NavigationProperty Name="Resimler" Relationship="Self.FK__Resimler__TarifI__44FF419A" FromRole="Tarifler" ToRole="Resimler" />
+          <NavigationProperty Name="YapimAsamalari" Relationship="Self.FK__YapimAsam__Tarif__440B1D61" FromRole="Tarifler" ToRole="YapimAsamalari" />
+          <NavigationProperty Name="Yorumlar" Relationship="Self.FK__Yorumlar__TarifI__46E78A0C" FromRole="Tarifler" ToRole="Yorumlar" />
+        </EntityType>
+        <EntityType Name="YapimAsamalari">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TarifId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Tarifler" Relationship="Self.FK__YapimAsam__Tarif__440B1D61" FromRole="YapimAsamalari" ToRole="Tarifler" />
+        </EntityType>
+        <EntityType Name="Yorumlar">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TarifId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Tarifler" Relationship="Self.FK__Yorumlar__TarifI__46E78A0C" FromRole="Yorumlar" ToRole="Tarifler" />
+        </EntityType>
+        <Association Name="FK__Tarifler__Katego__45F365D3">
+          <End Role="Kategoriler" Type="Self.Kategoriler" Multiplicity="1" />
+          <End Role="Tarifler" Type="Self.Tarifler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriler">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tarifler">
+              <PropertyRef Name="KategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Malzemele__Tarif__4316F928">
+          <End Role="Tarifler" Type="Self.Tarifler" Multiplicity="1" />
+          <End Role="Malzemeler" Type="Self.Malzemeler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tarifler">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Malzemeler">
+              <PropertyRef Name="TarifId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Resimler__TarifI__44FF419A">
+          <End Role="Tarifler" Type="Self.Tarifler" Multiplicity="1" />
+          <End Role="Resimler" Type="Self.Resimler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tarifler">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resimler">
+              <PropertyRef Name="TarifId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__YapimAsam__Tarif__440B1D61">
+          <End Role="Tarifler" Type="Self.Tarifler" Multiplicity="1" />
+          <End Role="YapimAsamalari" Type="Self.YapimAsamalari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tarifler">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="YapimAsamalari">
+              <PropertyRef Name="TarifId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Yorumlar__TarifI__46E78A0C">
+          <End Role="Tarifler" Type="Self.Tarifler" Multiplicity="1" />
+          <End Role="Yorumlar" Type="Self.Yorumlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tarifler">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Yorumlar">
+              <PropertyRef Name="TarifId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="YemekTarifleriEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kategoriler" EntityType="Self.Kategoriler" />
+          <EntitySet Name="Malzemeler" EntityType="Self.Malzemeler" />
+          <EntitySet Name="Resimler" EntityType="Self.Resimler" />
+          <EntitySet Name="Tarifler" EntityType="Self.Tarifler" />
+          <EntitySet Name="YapimAsamalari" EntityType="Self.YapimAsamalari" />
+          <EntitySet Name="Yorumlar" EntityType="Self.Yorumlar" />
+          <AssociationSet Name="FK__Tarifler__Katego__45F365D3" Association="Self.FK__Tarifler__Katego__45F365D3">
+            <End Role="Kategoriler" EntitySet="Kategoriler" />
+            <End Role="Tarifler" EntitySet="Tarifler" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Malzemele__Tarif__4316F928" Association="Self.FK__Malzemele__Tarif__4316F928">
+            <End Role="Tarifler" EntitySet="Tarifler" />
+            <End Role="Malzemeler" EntitySet="Malzemeler" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Resimler__TarifI__44FF419A" Association="Self.FK__Resimler__TarifI__44FF419A">
+            <End Role="Tarifler" EntitySet="Tarifler" />
+            <End Role="Resimler" EntitySet="Resimler" />
+          </AssociationSet>
+          <AssociationSet Name="FK__YapimAsam__Tarif__440B1D61" Association="Self.FK__YapimAsam__Tarif__440B1D61">
+            <End Role="Tarifler" EntitySet="Tarifler" />
+            <End Role="YapimAsamalari" EntitySet="YapimAsamalari" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Yorumlar__TarifI__46E78A0C" Association="Self.FK__Yorumlar__TarifI__46E78A0C">
+            <End Role="Tarifler" EntitySet="Tarifler" />
+            <End Role="Yorumlar" EntitySet="Yorumlar" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="YemekTarifleriModelStoreContainer" CdmEntityContainer="YemekTarifleriEntities">
+          <EntitySetMapping Name="Kategoriler">
+            <EntityTypeMapping TypeName="YemekTarifleriModel.Kategoriler">
+              <MappingFragment StoreEntitySet="Kategoriler">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Malzemeler">
+            <EntityTypeMapping TypeName="YemekTarifleriModel.Malzemeler">
+              <MappingFragment StoreEntitySet="Malzemeler">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TarifId" ColumnName="TarifId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Resimler">
+            <EntityTypeMapping TypeName="YemekTarifleriModel.Resimler">
+              <MappingFragment StoreEntitySet="Resimler">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TarifId" ColumnName="TarifId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tarifler">
+            <EntityTypeMapping TypeName="YemekTarifleriModel.Tarifler">
+              <MappingFragment StoreEntitySet="Tarifler">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="YSuresi" ColumnName="YSuresi" />
+                <ScalarProperty Name="Porsiyon" ColumnName="Porsiyon" />
+                <ScalarProperty Name="Durum" ColumnName="Durum" />
+                <ScalarProperty Name="OTarihi" ColumnName="OTarihi" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="KategoriId" ColumnName="KategoriId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="YapimAsamalari">
+            <EntityTypeMapping TypeName="YemekTarifleriModel.YapimAsamalari">
+              <MappingFragment StoreEntitySet="YapimAsamalari">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TarifId" ColumnName="TarifId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Yorumlar">
+            <EntityTypeMapping TypeName="YemekTarifleriModel.Yorumlar">
+              <MappingFragment StoreEntitySet="Yorumlar">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="OTarihi" ColumnName="OTarihi" />
+                <ScalarProperty Name="TarifId" ColumnName="TarifId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

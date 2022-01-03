@@ -1,0 +1,108 @@
+﻿@using YemekTarifleri.ViewModels
+@model TarifViewModel
+@{
+    ViewBag.Title = "Tarif";
+}
+
+<div class="container">
+
+    <h3 class="text-center mt-5 text-white px-5">@Model.Tarif.Name Tarifi</h3>
+    <div class="card col-lg-6 mx-auto mt-4">
+        <div class="card-header d-flex">
+            <div class="col-4">
+                Tahmini Porsiyon: <span class="text-muted">@Model.Tarif.Porsiyon</span>
+            </div>
+            <div class="col-6">
+                Yapım süresi: <span class="text-muted">@Model.Tarif.YSuresi</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <h3>@Model.Tarif.Name Tarifi İçin Gerekli Malzemeler</h3>
+            <ol>
+                @foreach (var malzeme in Model.Tarif.Malzemeler)
+                {
+                    <li class="mb-1 fs-5">@malzeme.Name</li>
+                }
+            </ol>
+        </div>
+    </div>
+    <div class="card col-lg-6 mx-auto mt-4">
+        <div class="card-body">
+            <h3>@Model.Tarif.Name Tarifi İçin Bir Kaç Fotoğraf</h3>
+            @foreach (var imgPath in Directory.GetFiles(Server.MapPath("~/Content/UploadedFiles/") + Model.Tarif.Name.Replace(" ", "_"), "*.jpg"))
+            {
+                var img = new FileInfo(imgPath);
+                <img src="@Url.Content(String.Format("~/Content/UploadedFiles/{0}/{1}",Model.Tarif.Name.Replace(" ", "_") ,img.Name))" class="img-fluid mb-2" alt="" height="400" />
+            }
+        </div>
+    </div>
+    <div class="card col-lg-6 mx-auto mt-4 mb-5">
+        <div class="card-body">
+            <h3>@Model.Tarif.Name Nasıl Yapılır?</h3>
+            @if (Request.IsAuthenticated)
+            {
+                <ol>
+                    @foreach (var asama in Model.Tarif.YapimAsamalari)
+                    {
+                        <li class="mb-2 fs-5">@asama.Name</li>
+                    }
+                </ol>
+            }
+            else
+            {
+                <div class="alert alert-warning mt-2 mx-2" role="alert">
+                    Nasıl Yapıldığını Görebilmek İçin @Html.ActionLink("Giriş", "Login", "Account") Yapınız.
+                </div>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="category-header text-white mb-3 fs-3">Yorumlar</div>
+        </div>
+        @if (Request.IsAuthenticated)
+        {
+            using (Html.BeginForm("YorumCreate", "Home", FormMethod.Post))
+            {
+                <div class="col-lg-8 mx-auto mb-3">
+                    <div class="form-floating mb-2">
+                        @Html.HiddenFor(m => m.TarifId, new { Value = Model.Tarif.Id })
+                        @Html.TextAreaFor(m => m.Yorum, new { @class = "form-control", @placeholder = "Leave a comment here", @id = "floatingTextarea2", @style = "height: 100px" })
+                        <label for="floatingTextarea2">Yorum</label>
+                    </div>
+                    <button type="submit" class="btn btn-success w-25">Yorumu Gönder</button>
+                </div>
+            }
+            if (Model.Tarif.Yorumlar.Count > 0)
+            {
+
+                foreach (var yorum in Model.Tarif.Yorumlar)
+                {
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card mb-2">
+                            <div class="card-body border-bottom">
+                                <div class="d-flex">
+                                    <div class="col-8">
+                                        <img class="rounded-circle" alt="mdo" width="32" height="32" src="@Url.Content(String.Format("~/Content/ProfilPhotos/{0}", @Model.Kullanicilar.Find(u => u.Id == yorum.UserId).ProfilResmi))" />
+                                        <span>@Model.Kullanicilar.Find(u => u.Id == yorum.UserId).UserName</span>
+                                    </div>
+                                    <div class="col-4">
+                                        <span>@yorum.OTarihi</span>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="card-text">@yorum.Text</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+        else
+        {
+            <div class="alert alert-warning mt-2 mx-2" role="alert">
+                Yorumları Görebilmek İçin @Html.ActionLink("Giriş", "Login", "Account") Yapınız.
+            </div>
+        }
+    </div>
+</div>

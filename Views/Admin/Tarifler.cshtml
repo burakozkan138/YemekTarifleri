@@ -1,0 +1,71 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList<YemekTarifleri.Models.Tarifler>
+@{
+    ViewBag.Title = "Tarifler";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <div class="card mt-5">
+        <div class="card-header">
+            <div class="row p-1">
+                <div class="col-6">
+                    <h2 class="card-title">Tarifler</h2>
+                </div>
+                <div class="col-4">
+                    @using (Html.BeginForm("Index", "Admin", FormMethod.Get))
+                    {
+                        <div class="input-group mb-3">
+                            <button class="btn btn-outline-secondary" type="submit">Ara</button>
+                            <input type="text" name="searchText" class="form-control" placeholder="Arama...">
+                        </div>
+                    }
+
+                </div>
+                <div class="col-2">
+                    @Html.ActionLink("Oluştur", "TarifCreate", "Admin", null, new { @class = "btn btn-success" })
+                </div>
+            </div>
+        </div>
+        @if (Model.Any())
+        {
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(m => m[0].Id)</th>
+                        <th>@Html.DisplayNameFor(m => m[0].Name)</th>
+                        <th>@Html.DisplayNameFor(m => m[0].YSuresi)</th>
+                        <th>@Html.DisplayNameFor(m => m[0].Porsiyon)</th>
+                        <th>@Html.DisplayNameFor(m => m[0].Durum)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tarif in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayTextFor(modelItem => tarif.Id)</td>
+                            <td>@Html.DisplayTextFor(modelItem => tarif.Name)</td>
+                            <td>@Html.DisplayTextFor(modelItem => tarif.YSuresi)</td>
+                            <td>@Html.DisplayTextFor(modelItem => tarif.Porsiyon)</td>
+                            <td>@Html.DisplayTextFor(modelItem => tarif.Durum)</td>
+                            <td class="text-center">
+                                @Html.ActionLink("Detaylar", "Tarif", "Home", new { id = tarif.Id }, new { @class = "btn btn-sm btn-warning text-white" })
+                                @Html.ActionLink("Düzenle", "TarifEdit", "Admin", new { id = tarif.Id }, new { @class = "btn btn-sm btn-primary" })
+                                @Html.ActionLink("Sil", "TarifDelete", "Admin", new { id = tarif.Id }, new { @class = "btn btn-sm btn-danger", onclick = "return confirm('Gerçekten Bu Tarifi Silmek İstiyor Musunuz?')" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="card-footer d-flex flex-column justify-content-center align-items-center">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning mt-2 mx-2" role="alert">Herhangi Bir Tarif Yok.</div>
+        }
+    </div>
+</div>

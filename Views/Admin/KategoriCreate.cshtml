@@ -1,0 +1,29 @@
+﻿@model YemekTarifleri.Models.Kategoriler
+@{
+    ViewBag.Title = "Kategori Oluştur";
+}
+
+<div class="container d-flex justify-content-center mt-5">
+    <div class="card" style="width: 500px">
+        <div class="card-header text-center">
+            <h4 class="card-title">Kategori Oluştur</h4>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                <form>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.Name, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
+                    </div>
+
+                    <div class="d-flex justify-content-around">
+                        @Html.ActionLink("Geri Dön", "Index", "Admin", null, new { @class = "btn btn-primary w-25" })
+                        <button type="submit" class="btn btn-success w-50">Oluştur</button>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+﻿@model YemekTarifleri.Models.Kategoriler
+@{
+    ViewBag.Title = "Kategori";
+}
+
+<section id="main">
+    <div class="container text-white">
+        <div class="row mt-3">
+            <div class="category-header">
+                @Html.ActionLink(@Model.Name, "Kategori", "Home", new { id = Model.Id }, new { @class = "category-link" })
+            </div>
+            @foreach (var tarif in Model.Tarifler)
+            {
+                <div class="col-md-4 col-lg-3">
+                    <div class="food-list-item">
+                        @foreach (var imgPath in Directory.GetFiles(Server.MapPath("~/Content/UploadedFiles/") + tarif.Name.Replace(" ", "_"), "*.jpg").Take(1))
+                        {
+                            var img = new FileInfo(imgPath);
+                            <img src="@Url.Content(String.Format("~/Content/UploadedFiles/{0}/{1}",tarif.Name.Replace(" ", "_") ,img.Name))" class="w-100" alt="" />
+                        }
+                        <div class="text-center my-2">
+                            @Html.ActionLink(@tarif.Name, "Tarif", "Home", new { id = tarif.Id }, new { @class = "category-link" })
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

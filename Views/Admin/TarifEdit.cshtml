@@ -1,0 +1,161 @@
+﻿@using YemekTarifleri.ViewModels
+@model TarifEditViewModel
+@{
+    ViewBag.Title = "Tarif Düzenle";
+}
+<div class="container d-flex justify-content-center my-auto">
+    <div class="card col-md-8 col-lg-6 mt-3">
+        <div class="card-header">
+            <h3 class="card-title text-center text-dark">Tarif Düzenle</h3>
+        </div>
+        <div class="card-body">
+            @using (@Html.BeginForm("TarifEdit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <form>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.Name, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.Porsiyon, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.Porsiyon, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Porsiyon, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.YSuresi, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.YSuresi, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.YSuresi, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-3 form-check form-switch">
+                        @Html.LabelFor(m => m.Durum, new { @class = "form-check-label" })
+                        @Html.CheckBoxFor(m => m.Durum, new { @class = "form-check-input" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.KategoriId, new { @class = "form-check-label" })
+                        @Html.DropDownListFor(m => m.KategoriId, new SelectList(ViewBag.Kategoriler, "Id", "Name"), "Kategori Seçiniz!", new { @class = "form-select" })
+                        @Html.ValidationMessageFor(m => m.KategoriId, null, new { @class = "text-danger" })
+                    </div>
+                    @if (Model.Resimler.Count > 0)
+                    {
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Resimler, new { @class = "form-check-label mb-1" })
+                            <ul class="list-group">
+
+                                @foreach (var resim in Model.Resimler)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>@resim.Name</span>
+                                        <img src="@Url.Content(String.Format("~/Content/UploadedFiles/{0}/{1}", Model.Name.Replace(" ", "_"), @resim.Name))" class="d-block" alt="" height="60" />
+                                        @Html.ActionLink("X", "ResimDelete", "Admin", new { id = resim.Id }, new { @class = "btn btn-xs btn-danger" })
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                    }
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.files, new { @class = "form-check-label mb-1" })
+                        @Html.TextBoxFor(m => m.files, "", new { @type = "file", @multiple = "multiple", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.files, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.HiddenFor(m => m.Malzemeler, new { id = "Malzemeler" })
+                        @Html.LabelFor(m => m.Malzemeler, new { @class = "form-check-label mb-1" })
+                        @Html.ValidationMessageFor(m => m.Malzemeler, null, new { @class = "text-danger" })
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="material">
+                            <button class="btn btn-outline-secondary" type="button" id="addMetarial">Ekle</button>
+                        </div>
+                        <ul class="list-group" id="materials"></ul>
+                    </div>
+                    <div class="mb-3">
+                        @Html.HiddenFor(m => m.YapimAsamalari, new { id = "YapimAsamalari" })
+                        @Html.LabelFor(m => m.YapimAsamalari, new { @class = "form-check-label mb-1" })
+                        @Html.ValidationMessageFor(m => m.YapimAsamalari, null, new { @class = "text-danger" })
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="asama">
+                            <button class="btn btn-outline-secondary" type="button" id="addAsama">Ekle</button>
+                        </div>
+                        <ul class="list-group" id="asamalar"></ul>
+                    </div>
+                    <div class="d-flex justify-content-around">
+                        @Html.ActionLink("Geri Dön", "Index", "Admin", null, new { @class = "btn btn-primary w-25" })
+                        <button type="submit" class="btn btn-success w-50">Güncelle</button>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var metarials = [];
+            var asamalar = [];
+
+            $('#Malzemeler').val().split(",").forEach(text => {
+                if (text) {
+                    metarials.push(text);
+                    createItem(text, "materials", "deleteMetarial");
+                }
+            });
+            $('#Malzemeler').val(metarials);
+
+            $('#YapimAsamalari').val().split(",").forEach(text => {
+                if (text) {
+                    metarials.push(text);
+                    createItem(text, "asamalar", "deleteAsama");
+                }
+            });
+            $('#YapimAsamalari').val(metarials);
+
+            $("#addMetarial").click(function () {
+                var text = $("#material").val().replaceAll(",", ".");
+                $("#material").val("");
+                if (text) {
+                    metarials.push(text);
+                    $('#Malzemeler').val(metarials);
+                    createItem(text, "materials", "deleteMetarial");
+                }
+            });
+            $(document).on("click", ".deleteMetarial", function (event) {
+                var text = event.target.parentNode.firstElementChild.innerText;
+                metarials = metarials.filter(m => m !== text);
+                $('#Malzemeler').val(metarials);
+                event.target.parentNode.remove();
+            });
+
+            $("#addAsama").click(function () {
+                var text = $("#asama").val().replaceAll(",", ".");
+                $("#asama").val("");
+                if (text) {
+                    asamalar.push(text);
+                    $('#YapimAsamalari').val(asamalar);
+                    createItem(text, "asamalar", "deleteAsama");
+                }
+            });
+            $(document).on("click", ".deleteAsama", function (event) {
+                var text = event.target.parentNode.firstElementChild.innerText;
+                asamalar = asamalar.filter(a => a !== text);
+                $('#YapimAsamalari').val(asamalar);
+                event.target.parentNode.remove();
+            });
+
+            function createItem(text, elementName, deleteClass) {
+                var li = document.createElement("li");
+                var span = document.createElement("span");
+                var span1 = document.createElement("span");
+                li.className = "list-group-item d-flex justify-content-between align-items-center";
+                span1.className = `btn btn-xs btn-danger ${deleteClass}`;
+                span.innerText = text;
+                span1.innerText = "X";
+                li.appendChild(span);
+                li.appendChild(span1);
+
+                $(`#${elementName}`).append(li);
+            }
+        });
+    </script>
+}

@@ -1,0 +1,88 @@
+﻿@model YemekTarifleri.ViewModels.ProfilEditViewModel
+@{
+    ViewBag.Title = "Profil Düzenle";
+}
+
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-10 border-bottom p-3 d-flex flex-row align-items-center">
+            <div class="profilepic">
+                <img class="profilepic__image rounded-circle" alt="mdo" width="70" height="70" src="@Url.Content(String.Format("~/Content/ProfilPhotos/{0}", @Model.Resim))" />
+                <div class="profilepic__content">
+                    @Html.ActionLink("Resmi Düzenle", "ProfilResmi", null, new { @class = "profilepic__link" })
+                </div>
+            </div>
+            <div class="ms-3 d-flex flex-column">
+                <span class="fs-4 text-white">@Model.Ad @Model.Soyad</span>
+                <small class="text-muted">@Model.UserName</small>
+            </div>
+            <div class="ms-auto">
+                @Html.ActionLink("Geri Dön", "Index", null, new { @class = "btn btn-primary" })
+
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5 justify-content-center">
+        <div class="card" style="width: 1000px;">
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    <form>
+                        <div class="d-flex justify-content-center">
+                            <div class="col-5 mb-3 me-3">
+                                @Html.LabelFor(m => m.Ad, new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.Ad, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Ad, null, new { @class = "text-danger" })
+                            </div>
+                            <div class="col-5 mb-3 ">
+                                @Html.LabelFor(m => m.Soyad, new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.Soyad, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Soyad, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <div class="col-5 mb-3 me-3">
+                                @Html.LabelFor(m => m.UserName, new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.UserName, null, new { @class = "text-danger" })
+                            </div>
+                            <div class="col-5 mb-3 ">
+                                @Html.LabelFor(m => m.Sehir, new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.Sehir, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Sehir, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <div class="col-5 mb-3 me-3">
+                                @Html.LabelFor(m => m.Youtube, new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.Youtube, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Youtube, null, new { @class = "text-danger" })
+                            </div>
+                            <div class="col-5 mb-3 ">
+                                @Html.LabelFor(m => m.Instagram, new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.Instagram, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Instagram, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <div class="col-5 mb-3 me-3">
+                                @Html.LabelFor(m => m.Twitter, new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.Twitter, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Twitter, null, new { @class = "text-danger" })
+                            </div>
+                            <div class="col-5 mb-3 ">
+                                @Html.LabelFor(m => m.Facebook, new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.Facebook, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Facebook, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success w-50">Güncelle</button>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

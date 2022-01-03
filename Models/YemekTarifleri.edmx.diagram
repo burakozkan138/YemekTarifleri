@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bfe9121d9dd94d4cac9bd94685cd8196" Name="Diagram1" ZoomLevel="111">
+        <EntityTypeShape EntityType="YemekTarifleriModel.Kategoriler" Width="1.5" PointX="5.375" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="YemekTarifleriModel.Malzemeler" Width="1.5" PointX="0.875" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="YemekTarifleriModel.Resimler" Width="1.5" PointX="5.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="YemekTarifleriModel.Tarifler" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="YemekTarifleriModel.YapimAsamalari" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="YemekTarifleriModel.Yorumlar" Width="1.5" PointX="0.875" PointY="6" IsExpanded="true" />
+        <AssociationConnector Association="YemekTarifleriModel.FK__Tarifler__Katego__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="YemekTarifleriModel.FK__Malzemele__Tarif__4316F928" ManuallyRouted="false" />
+        <AssociationConnector Association="YemekTarifleriModel.FK__Resimler__TarifI__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="YemekTarifleriModel.FK__YapimAsam__Tarif__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="YemekTarifleriModel.FK__Yorumlar__TarifI__46E78A0C" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
